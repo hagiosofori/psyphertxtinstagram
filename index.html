@@ -1,0 +1,115 @@
+<!DOCTYPE html>
+<!--[if lt IE 7]>      <html class="no-js lt-ie9 lt-ie8 lt-ie7"> <![endif]-->
+<!--[if IE 7]>         <html class="no-js lt-ie9 lt-ie8"> <![endif]-->
+<!--[if IE 8]>         <html class="no-js lt-ie9"> <![endif]-->
+<!--[if gt IE 8]><!-->
+<html class="no-js">
+<!--<![endif]-->
+
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <title>Psyphertxt Instagram</title>
+    <meta name="description" content="">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0-alpha.6/css/bootstrap.min.css" integrity="sha384-rwoIResjU2yc3z8GV/NPeZWAv56rSmLldC3R/AZzGRnGxQQKnKkoFVhFQhNUwEyJ"
+        crossorigin="anonymous">
+
+</head>
+
+<body>
+    <!--[if lt IE 7]>
+            <p class="browsehappy">You are using an <strong>outdated</strong> browser. Please <a href="#">upgrade your browser</a> to improve your experience.</p>
+        <![endif]-->
+    <nav class="navbar navbar-inverse bg-primary">
+        <!-- Navbar content -->
+        <h2 style='color:white'>
+            <center>PsypherTxt Instagram</center>
+        </h2>
+    </nav>
+    <div class='container'>
+
+
+
+    </div>
+
+
+    <script src="https://www.gstatic.com/firebasejs/4.0.0/firebase.js"></script>
+    <script>
+        // Initialize Firebase
+        var config = {
+            apiKey: "AIzaSyBQwJU5bFqxvoj3PgAHqpMgyD26WzZgT8c",
+            authDomain: "psyphertxt-instagram.firebaseapp.com",
+            databaseURL: "https://psyphertxt-instagram.firebaseio.com",
+            projectId: "psyphertxt-instagram",
+            storageBucket: "psyphertxt-instagram.appspot.com",
+            messagingSenderId: "141349820719"
+        };
+        firebase.initializeApp(config);
+
+        function writeImages(images) {
+            firebase.database().ref('images').set(images);
+        }
+    </script>
+
+    <script src="https://code.jquery.com/jquery-3.1.1.slim.min.js" integrity="sha384-A7FZj7v+d/sdmMqp/nOQwliLvUsJfDHW+k9Omg/a/EheAdgtzNs3hpfag6Ed950n"
+        crossorigin="anonymous"></script>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/tether/1.4.0/js/tether.min.js" integrity="sha384-DztdAPBWPRXSA/3eYEEUWrWCy7G5KFbe8fFjk5JAIxUYHKkDx6Qin1DkWx51bBrb"
+        crossorigin="anonymous"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0-alpha.6/js/bootstrap.min.js" integrity="sha384-vBWWzlZJ8ea9aCX4pEW3rVHjgjt7zpkNpZk+02D9phzyeVkE+jo0ieGizqPLForn"
+        crossorigin="anonymous"></script>
+
+
+    <script>
+        function extractToken(hash) {
+            var match = hash.match(/access_token=(\w+)/);
+            return !!match && match[1];
+        }
+
+        var token = extractToken(document.location.hash);
+        var clientId = 'b144351ffb05838';
+        var imgur;
+        var imgs;
+        var imgarr = [];
+        var num = Math.floor(Math.random() * 50);
+        var num2 = Math.floor(Math.random() * 50);
+        var auth;
+        if (token) authorization = 'Bearer ' + token;
+        else authorization = 'Client-ID ' + clientId;
+
+        function rimgur() {
+
+            $.ajax({
+                url: 'https://api.imgur.com/3/gallery/random/random/0',
+                method: 'GET',
+                headers: {
+                    Authorization: authorization,
+                    Accept: 'application/json'
+                },
+                data: {
+                    image: localStorage.dataBase64,
+                    type: 'base64'
+                },
+                success: handleData
+            });
+
+
+            function handleData(result) {
+                writeImages(result.data);
+                $.each(result.data, function (idx, img) {
+
+                    var $div = $('<div class="row"><div class="col-8 offset-2"><div class="card" style="width: 75%; height:10%;"><img class="card-img-top" src=' + img.link + ' alt="Card image cap"><div class="card-block"><h4 class="card-text">' + img.title + '</h4><p>' + img.description + '</p></div></div></div></div>').appendTo('.container');
+                   
+                });
+
+            }
+
+        }
+
+        rimgur();
+    </script>
+
+</body>
+
+</html>
